@@ -75,6 +75,7 @@ impl FromStr for Ipv4 {
 }
 
 impl Ip for Ipv4 {
+    type Err = String;
     fn bits_string(&self) -> String {
         let mut res: String = "".to_string();
         for i in (0..32).rev() {
@@ -84,7 +85,7 @@ impl Ip for Ipv4 {
         return res;
     }
 
-    fn new(ipaddress: &str) -> Result<Ipv4, String> {
+    fn new(ipaddress: &str) -> Result<Ipv4, Self::Err> {
         // https://www.oreilly.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html
         let ipv4_reg_pattern = r"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         let re = Regex::new(ipv4_reg_pattern);
