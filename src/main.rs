@@ -18,9 +18,6 @@ mod tests {
         assert_eq!(bit_to_int(bit), 127);
         assert_eq!(bit_to_int("1111111111111111111111111111111"), (1 << 31) - 1);
     }
-
-    #[test]
-    fn test_ping() {}
 }
 
 fn bit_to_int(bit: &str) -> u32 {
@@ -30,7 +27,7 @@ fn bit_to_int(bit: &str) -> u32 {
     }
     return res;
 }
-
+// todo; implement test for this method
 fn ping(addr: IpAddr) -> std::io::Result<usize> {
     let mut socket = icmp::IcmpSocket::connect(addr)?;
     let payload: &[u8] = &[1, 2];
