@@ -2,6 +2,7 @@ use std::fmt::{Debug, Formatter};
 use crate::ip_trait::Ip;
 use regex::Regex;
 use std::net::Ipv4Addr;
+use std::str::FromStr;
 
 #[cfg(test)]
 mod tests {
@@ -17,6 +18,9 @@ mod tests {
         assert_eq!(Ipv4::new("0.0.0.1").unwrap(), Ipv4 { octets: [0, 0, 0, 1], bit: 1 });
         assert_eq!(Ipv4::new("1.1.1.1").unwrap(), Ipv4 { octets: [1, 1, 1, 1], bit: 16843009 });
         assert_eq!(Ipv4::new("255.255.255.255").unwrap(), Ipv4 { octets: [255, 255, 255, 255], bit: 4294967295 });
+
+        assert_eq!("1.1.1.1".parse::<Ipv4>().unwrap(), Ipv4 { octets: [1, 1, 1, 1], bit: 16843009 });
+        assert_eq!("1".parse::<Ipv4>().unwrap_err(), "Invalid IP 1".to_string());
     }
 
     #[test]
@@ -59,6 +63,14 @@ pub(crate) struct Ipv4 {
 impl Debug for Ipv4 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "IP: {}\tbit: {}", self.to_string(), self.bit)
+    }
+}
+
+impl FromStr for Ipv4 {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        return self::Ipv4::new(s);
     }
 }
 
